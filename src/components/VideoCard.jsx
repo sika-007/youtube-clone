@@ -20,7 +20,7 @@ const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
       >
         <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>  
           <Typography variant="subtitle1" fontWeight="bold" color="#fff" textOverflow="wrap">
-            {snippet?.title.slice(0,60).replaceAll("&#39;", "'") || demoVideoTitle.slice(0, 60).replaceAll("&#39;", "'")}
+            {snippet?.title.slice(0,60).replaceAll("&#39;", "'").replaceAll("&quot;", "'") || demoVideoTitle.slice(0, 60).replaceAll("&#39;", "'")}
           </Typography>
         </Link> 
         <Link to={snippet?.channelId ? `/channel/${snippet?.channelId}` : demoChannelUrl}>
