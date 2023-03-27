@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { Paper, IconButton } from "@mui/material"
 import { Search } from "@mui/icons-material";
 
 const SearchBar = () => {
+  
+  const [searchTerm, setSearchTerm] = useState("")
+  const navigate = useNavigate()
 
+  function handleSubmit(e) {
+    e.preventDefault()
+    searchTerm && navigate(`/search/${searchTerm}`)
+    setSearchTerm("")
+  }
 
   return (
     <Paper 
         component="form"
-        // onSubmit={() = {}}
+        onSubmit={handleSubmit}
         sx={{
             borderRadius: 20, 
             border: "1px solid #e3e3e3", 
@@ -18,11 +26,13 @@ const SearchBar = () => {
             mr: {sm: 5}
         }}
     >
+      {/* For some reason, react has to be abke to track inputs. Even though, the input defines the state, react also wants the state to define the input value at the same time */}
         <input 
             type="text"
             className='search-bar' 
             placeholder='search...'
-            // onChange={() => {}}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
         />
         <IconButton type='submit' sx={{padding: "10px", color: "red"}}>
           <Search />  
