@@ -11,8 +11,9 @@ const Videos = ({ videos }) => {
     </Box>
   ))
 
+
   return (
-      <Stack direction="row" flexWrap="wrap" justifyContent="center" gap={2} width="100%">
+      <Stack direction={{ xs: "column", sm: "row" }} flexWrap="wrap" justifyContent="start" alignItems="stretch" gap={2} width="100%">
         {videoAndChannelElements}
       </Stack>
   )
