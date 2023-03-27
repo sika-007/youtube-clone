@@ -6,12 +6,16 @@ import { demoThumbnailUrl, demoVideoUrl, demoChannelUrl, demoVideoTitle, demoCha
 
 const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
 
+  // Come back and implement the time functionality later!!!
+  const publishDate =  new Date(snippet.publishedAt)
+  const todaysDate = new Date()
+
   return (
     <Card sx={{ width: { xs: "100%", sm: "320px"}, boxShadow: "none", borderRadius: "0" }}>
       <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>
         <CardMedia 
           alt={snippet?.title}
-          image={snippet?.thumbnails?.high?.url}
+          image={snippet?.thumbnails?.high?.url || demoThumbnailUrl}
           sx={{ width: "100%", height: 180 }}
         />
       </Link>
@@ -20,7 +24,7 @@ const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
       >
         <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>  
           <Typography variant="subtitle1" fontWeight="bold" color="#fff" textOverflow="wrap">
-            {snippet?.title.slice(0,60).replaceAll("&#39;", "'").replaceAll("&quot;", "'") || demoVideoTitle.slice(0, 60).replaceAll("&#39;", "'")}
+            {snippet?.title.slice(0,60).replaceAll("&#39;", "'").replaceAll("&quot;", "'").replaceAll("&amp;", "&") || demoVideoTitle.slice(0, 60).replaceAll("&#39;", "'")}
           </Typography>
         </Link> 
         <Link to={snippet?.channelId ? `/channel/${snippet?.channelId}` : demoChannelUrl}>
