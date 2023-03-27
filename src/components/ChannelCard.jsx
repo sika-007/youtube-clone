@@ -6,6 +6,7 @@ import { demoProfilePicture } from '../uilities/constants';
 
 const ChannelCard = ({ channelDetail, marginTop }) => {
 
+
   return (
     <Box
       sx={{
@@ -25,6 +26,7 @@ const ChannelCard = ({ channelDetail, marginTop }) => {
           sx={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
             color: "#fff",
