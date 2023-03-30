@@ -6,9 +6,36 @@ import { demoThumbnailUrl, demoVideoUrl, demoChannelUrl, demoVideoTitle, demoCha
 
 const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
 
-  // Come back and implement the time functionality later!!!
-  const publishDate =  new Date(snippet.publishedAt)
-  const todaysDate = new Date()
+  console.log(viewCount)
+
+  const publishSecondsAgo =  Math.ceil(new Date(snippet.publishedAt).getTime() / 1000)
+  const todayInSeconds = Math.ceil(new Date().getTime() / 1000)
+
+
+  const getSeconds = Math.floor(todayInSeconds - publishSecondsAgo);
+  const getMinutes = Math.floor((todayInSeconds - publishSecondsAgo) / (60));
+  const getHours = Math.floor((todayInSeconds - publishSecondsAgo) / (60*60));
+  const getDays = Math.floor((todayInSeconds - publishSecondsAgo) / (60*60*24));
+  const getWeeks = Math.floor((todayInSeconds - publishSecondsAgo) / (60*60*24*7));
+  const getMonths =  Math.floor((todayInSeconds - publishSecondsAgo) / (60*60*24*30));
+  const getYears = Math.floor((todayInSeconds - publishSecondsAgo) / (60*60*24*365.25));
+  let timeSincePublish
+
+  if (todayInSeconds - publishSecondsAgo < 60) {
+    timeSincePublish = `${getSeconds} second${getSeconds > 1 ? "s" : ""} ago`
+  } else if (todayInSeconds - publishSecondsAgo < 60*60) {
+    timeSincePublish = `${getMinutes} minute${getMinutes > 1 ? "s" : ""} ago`
+  } else if (todayInSeconds - publishSecondsAgo < 60*60*24) {
+    timeSincePublish = `${getHours} hour${getHours > 1 ? "s" : ""} ago`
+  } else if (todayInSeconds - publishSecondsAgo < 60*60*24*7) {
+    timeSincePublish = `${getDays} day${getDays > 1 ? "s" : ""} ago`
+  } else if (todayInSeconds - publishSecondsAgo < 60*60*24*7*4) {
+    timeSincePublish = `${getWeeks} week${getWeeks > 1 ? "s" : ""} ago`
+  } else if (todayInSeconds - publishSecondsAgo < 60*60*24*365.25) {
+    timeSincePublish = `${getMonths} month${getMonths > 1 ? "s" : ""} ago`
+  } else {
+    timeSincePublish = `${getYears} year${getYears > 1 ? "s" : ""} ago`
+  }
 
   return (
     <Card sx={{ width: { xs: "100%", sm: "320px"}, boxShadow: "none", borderRadius: "0" }}>
@@ -33,6 +60,9 @@ const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
             <CheckCircle sx={{fontSize: 12, color: "grey", marginLeft: "5px"}} />
           </Typography>
         </Link> 
+        <Typography color="grey" fontSize={10}>
+          {timeSincePublish}
+        </Typography>
       </CardContent >
     </Card>
   )
