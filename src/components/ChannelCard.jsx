@@ -6,6 +6,38 @@ import { demoProfilePicture } from '../uilities/constants';
 
 const ChannelCard = ({ channelDetail, marginTop }) => {
 
+  function formatCount(num) {
+    if (num < 1000) {
+      return `${num}`
+    } else if (num < 1000000) {
+      const formNum = num/1000
+      if (formNum < 10) {
+        return `${formNum.toFixed(2)}k`
+      } else if (formNum < 100) {
+        return `${formNum.toFixed(1)}k`
+      } else {
+        return `${formNum.toFixed(0)}k`
+      }
+    } else if (num < 1000000000) {
+      const formNum = num/1000000
+      if (formNum < 10) {
+        return `${formNum.toFixed(2)}M`
+      } else if (formNum < 100) {
+        return `${formNum.toFixed(1)}M`
+      } else {
+        return `${formNum.toFixed(0)}M`
+      }
+    } else {
+      const formNum = num/1000000000
+      if (formNum < 10) {
+        return `${formNum.toFixed(2)}B`
+      } else if (formNum < 100) {
+        return `${formNum.toFixed(1)}B`
+      } else {
+        return `${formNum.toFixed(0)}B`
+      }
+    }
+  }
 
   return (
     <Box
@@ -43,12 +75,12 @@ const ChannelCard = ({ channelDetail, marginTop }) => {
           </Typography>
           {channelDetail?.statistics?.subscriberCount && !channelDetail?.statistics?.hiddenSubscriberCount &&
             <Typography>
-              {parseInt(channelDetail?.statistics?.subscriberCount).toLocaleString()} Subscribers
+              {formatCount(channelDetail?.statistics?.subscriberCount)} Subscribers
             </Typography>
           }
           {channelDetail?.statistics?.videoCount && !channelDetail?.statistics?.hiddenSubscriberCount &&
             <Typography>
-              {parseInt(channelDetail?.statistics?.videoCount).toLocaleString()} Videos
+              {formatCount(channelDetail?.statistics?.videoCount)} Videos
             </Typography>
           }
         </CardContent>
