@@ -59,9 +59,9 @@ const VideoDetail = () => {
   }
 
   //Tag element mapping
-  const tagElements = tags?.map(tag => {
+  const tagElements = tags?.map((tag, index) => {
     return (
-      <Link to={`/search/${tag}`}>
+      <Link key={index} to={`/search/${tag}`}>
         <Box sx={{ background: "#1e1e1e", width: "fit-content", padding: "3px", cursor: "pointer" }}>
           <Typography color="blue" lineHeight={1.2} fontSize={12}>
             #{tag}
