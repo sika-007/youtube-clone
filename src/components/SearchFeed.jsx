@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from 'react'
-import { Videos } from './'
+import React, {useState, useEffect, lazy, Suspense} from 'react'
 import { useParams } from 'react-router-dom'
 import { Box, Typography } from "@mui/material"
 import { fetchFromAPI } from '../uilities/fetchFromAPI.js'
+import VideosFallBack from './VideosFallBack.jsx'
+
+const Videos = lazy(() => import("./Videos"))
 
 const SearchFeed = () => {
 
@@ -19,7 +21,9 @@ const SearchFeed = () => {
       <Typography variant='h5' fontWeight="bold" mb={2} sx={{ color: "white"}}>
         Results For <span style={{color: "#F31503"}}>{searchTerm}</span>
       </Typography>
-      <Videos videos={videos}/>
+      <Suspense fallback={<VideosFallBack />}>
+        <Videos videos={videos}/>
+      </Suspense>
     </Box>
   )
 }

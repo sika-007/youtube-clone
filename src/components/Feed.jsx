@@ -1,7 +1,10 @@
-import React, {useState, useEffect} from 'react'
-import { Sidebar, Videos } from './'
+import {useState, useEffect, lazy, Suspense} from 'react'
+import VideosFallBack from './VideosFallBack'
+import { Sidebar } from './'
 import { Box, Stack, Typography } from "@mui/material"
 import { fetchFromAPI } from '../uilities/fetchFromAPI.js'
+
+const Videos = lazy(() => import("./Videos"))
 
 const Feed = () => {
 
@@ -28,7 +31,9 @@ const Feed = () => {
         <Typography variant='h4' fontWeight="bold" mb={2} sx={{ color: "white"}}>
           {selectedCategory} <span style={{color: "#F31503"}}>Videos</span>
         </Typography>
-        <Videos videos={videos}/>
+        <Suspense fallback={<VideosFallBack />}>
+          <Videos videos={videos}/>
+        </Suspense>
       </Box>
     </Stack>
   )
