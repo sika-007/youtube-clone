@@ -6,8 +6,6 @@ import { demoThumbnailUrl, demoVideoUrl, demoChannelUrl, demoVideoTitle, demoCha
 
 const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
 
-  console.log(viewCount)
-
   const publishSecondsAgo =  Math.ceil(new Date(snippet.publishedAt).getTime() / 1000)
   const todayInSeconds = Math.ceil(new Date().getTime() / 1000)
 
