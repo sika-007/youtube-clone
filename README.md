@@ -18,16 +18,17 @@ To run this application, you will need the following software installed on your 
 - Run "npm run dev" to start the development server.
 - Open your web browser and navigate to http://localhost:5173 to view the application.
 
+##Images 
+[desktop 1](./src/assets/yt-clone-desktop-image1.png)
+
+#### You can view the live site [here](https://yt-clone-by-sika.netlify.app/)
+
 ### Usage
 
 - Upon loading the application, users will be presented with a home page that displays a list of recommended videos. 
 - Users can browse videos by scrolling through the list, or they can use the search bar at the top of the page to search for videos based on keywords.
 - When a user clicks on a video, they will be taken to a video player page that displays the video and its details, such as the video title, description, and number of views.
 - The user, through the search bar has access to the entire catalog of YouTube videos. 
-
-## About the Application
-
-#### You can view the live site [here](https://yt-clone-by-sika.netlify.app/)
 
 ## Technologies Used
 
