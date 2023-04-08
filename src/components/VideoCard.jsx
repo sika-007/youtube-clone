@@ -4,11 +4,12 @@ import { Typography, Card, CardContent, CardMedia } from "@mui/material";
 import { CheckCircle } from "@mui/icons-material"
 import { demoThumbnailUrl, demoVideoUrl, demoChannelUrl, demoVideoTitle, demoChannelTitle } from '../uilities/constants';
 
-const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
+const VideoCard = ({ video: { id: { videoId }, snippet }, video }) => {
 
   const publishSecondsAgo =  Math.ceil(new Date(snippet.publishedAt).getTime() / 1000)
   const todayInSeconds = Math.ceil(new Date().getTime() / 1000)
 
+  console.log(video)
 
   const getSeconds = Math.floor(todayInSeconds - publishSecondsAgo);
   const getMinutes = Math.floor((todayInSeconds - publishSecondsAgo) / (60));
@@ -45,19 +46,21 @@ const VideoCard = ({ video: { id: { videoId }, snippet } }) => {
         />
       </Link>
       <CardContent
-        sx={{ backgroundColor: "#1e1e1e", height: "106px" }}
+        sx={{ backgroundColor: "#1e1e1e", height: "106px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}
       >
-        <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>  
-          <Typography variant="subtitle1" fontWeight="bold" color="#fff" textOverflow="wrap">
-            {snippet?.title.slice(0,60).replaceAll("&#39;", "'").replaceAll("&quot;", "'").replaceAll("&amp;", "&") || demoVideoTitle.slice(0, 60).replaceAll("&#39;", "'")}
-          </Typography>
-        </Link> 
-        <Link to={snippet?.channelId ? `/channel/${snippet?.channelId}` : demoChannelUrl}>
-          <Typography variant="subtitle2" fontWeight="bold" color="grey">
-            {snippet?.channelTitle || demoChannelTitle}
-            <CheckCircle sx={{fontSize: 12, color: "grey", marginLeft: "5px"}} />
-          </Typography>
-        </Link> 
+        <div>
+          <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>  
+            <Typography variant="subtitle1" fontWeight="bold" color="#fff" textOverflow="wrap">
+              {`${snippet?.title.slice(0,60).replaceAll("&#39;", "'").replaceAll("&quot;", "'").replaceAll("&amp;", "&") || demoVideoTitle.slice(0, 60).replaceAll("&#39;", "'")}${snippet?.title.length > 60 ? "..." : "" }`}
+            </Typography>
+          </Link> 
+          <Link to={snippet?.channelId ? `/channel/${snippet?.channelId}` : demoChannelUrl}>
+            <Typography variant="subtitle2" fontWeight="bold" color="grey">
+              {snippet?.channelTitle || demoChannelTitle}
+              <CheckCircle sx={{fontSize: 12, color: "grey", marginLeft: "5px"}} />
+            </Typography>
+          </Link> 
+        </div>
         <Typography color="grey" fontSize={10}>
           {timeSincePublish}
         </Typography>
