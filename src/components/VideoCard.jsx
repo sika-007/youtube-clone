@@ -9,7 +9,6 @@ const VideoCard = ({ video: { id: { videoId }, snippet }, video }) => {
   const publishSecondsAgo =  Math.ceil(new Date(snippet.publishedAt).getTime() / 1000)
   const todayInSeconds = Math.ceil(new Date().getTime() / 1000)
 
-  console.log(video)
 
   const getSeconds = Math.floor(todayInSeconds - publishSecondsAgo);
   const getMinutes = Math.floor((todayInSeconds - publishSecondsAgo) / (60));
