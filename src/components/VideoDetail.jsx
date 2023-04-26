@@ -5,6 +5,8 @@ import { Typography, Box, Stack } from '@mui/material';
 import { CheckCircle } from '@mui/icons-material';
 import { Videos } from './';
 import { fetchFromAPI } from '../uilities/fetchFromAPI';
+import { useErrorBoundary } from 'react-error-boundary';
+import VideosFallBack from './VideosFallBack';
 import { height } from '@mui/system';
 
 const VideoDetail = () => {
@@ -12,19 +14,31 @@ const VideoDetail = () => {
   const [videoDetail, setVideoDetail] = useState(null)
   const [videos, setVideos] = useState(null)
   const [seeMoreDescription, setSeeMoreDescription] = useState(false)
+  const { showBoundary } = useErrorBoundary()
   const { id } = useParams();
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchFromAPI(`videos?part=snippet,statistics&id=${id}`)
-      .then(data => setVideoDetail(data.items[0]))
+      .then(data => {
+        setVideoDetail(data.items[0])
+        setLoading(false)
+    })
+      .catch((err) => showBoundary(err))
 
     fetchFromAPI(`search?part=snippet&relatedToVideoId=${id}&type=video`)
-      .then(data => setVideos(data.items))
+      .then(data => {
+        setVideos(data.items)
+        setLoading(false)
+      })
+      .catch((err) => {
+        showBoundary(err)
+      })
   }, [id])
 
   console.log(videoDetail)
   if (!videoDetail?.snippet) {
-    return <div>Loading...</div>
+    return <div style={{ minHeight: "89vh", background: "#000", display: "flex", flexDirection: 'column', justifyContent: "center"}}><VideosFallBack /></div>
   }
 
   const { snippet: { title, channelId, channelTitle, tags, publishedAt, description }, statistics: { viewCount, likeCount } } = videoDetail
@@ -109,6 +123,7 @@ const VideoDetail = () => {
   return (
     <Box minHeight="90vh">
       <Stack direction={{ xs: "column", md: "row" }} height="100%">
+        {loading && <VideosFallBack />}
         <Box flex={1} height={{ sm: "100%", md: "90vh"}} overflow="scroll" sx={{ overscrollBehavior: "contain" }}>
           <Box sx={{ width: "100%", minHeight: "100%", py: "1rem" }}>
             <ReactPlayer controls className="react-player" url={`https://www.youtube.com/watch?v=${id}`} />

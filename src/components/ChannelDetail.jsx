@@ -3,23 +3,40 @@ import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 import { Videos, ChannelCard } from "./";
 import { fetchFromAPI } from "../uilities/fetchFromAPI";
+import { useErrorBoundary } from "react-error-boundary";
+import VideosFallBack from "./VideosFallBack";
 
 const ChannelDetail = () => {
   const { id } = useParams()
   const [channelDetails, setChannelDetail] = useState(null)
   const [channelVideos, setChannelVideos] = useState([])
+  const { showBoundary } = useErrorBoundary()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchFromAPI(`channels?part=snippet,statistics&id=${id}`)
-      .then(data => setChannelDetail(data?.items[0]))
+      .then(data => {
+        setLoading(false)
+        setChannelDetail(data?.items[0])
+      })
+      .catch((err) => {
+        showBoundary(err)
+      })
     
     fetchFromAPI(`search?part=snippet,id&channelId=${id}&order=date`)
-      .then(data => setChannelVideos(data?.items))
+      .then(data => {
+        setLoading(false)
+        setChannelVideos(data?.items)
+      })
+      .catch((err) => {
+        showBoundary(err)
+      })
   }, [id])
 
 
   return (
     <Box minHeight="95vh">
+      {loading && VideosFallBack}
       <Box>
         <div 
           style={{ 

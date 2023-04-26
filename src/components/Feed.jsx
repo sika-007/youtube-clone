@@ -3,17 +3,26 @@ import VideosFallBack from './VideosFallBack'
 import { Sidebar } from './'
 import { Box, Stack, Typography } from "@mui/material"
 import { fetchFromAPI } from '../uilities/fetchFromAPI.js'
-
-const Videos = lazy(() => import("./Videos"))
+import { useErrorBoundary } from 'react-error-boundary'
+import Videos from './Videos'
 
 const Feed = () => {
 
+  const { showBoundary } = useErrorBoundary()
   const [selectedCategory, setSelectedCategory] = useState("New")
   const [videos, setVideos] = useState([])
+  const [shownVideo, setShownVideo] = useState(true)
 
   useEffect(() => {
     fetchFromAPI(`search?part=snippet,id&q=${selectedCategory}`)
-    .then((data) => setVideos(data.items))
+    .then((data) => {
+      setShownVideo(false)
+      setVideos(data.items)
+    })
+    .catch((err) => {
+      console.error(err)
+      showBoundary(err)
+    })
   }, [selectedCategory])
 
   return (
@@ -31,9 +40,8 @@ const Feed = () => {
         <Typography variant='h4' fontWeight="bold" mb={2} sx={{ color: "white"}}>
           {selectedCategory} <span style={{color: "#F31503"}}>Videos</span>
         </Typography>
-        <Suspense fallback={<VideosFallBack />}>
-          <Videos videos={videos}/>
-        </Suspense>
+        {shownVideo  && <VideosFallBack />}
+        <Videos videos={videos}/>
       </Box>
     </Stack>
   )

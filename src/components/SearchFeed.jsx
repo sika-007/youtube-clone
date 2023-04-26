@@ -3,17 +3,25 @@ import { useParams } from 'react-router-dom'
 import { Box, Typography } from "@mui/material"
 import { fetchFromAPI } from '../uilities/fetchFromAPI.js'
 import VideosFallBack from './VideosFallBack.jsx'
-
-const Videos = lazy(() => import("./Videos"))
+import { useErrorBoundary } from 'react-error-boundary'
+import Videos from './Videos'
 
 const SearchFeed = () => {
 
   const [videos, setVideos] = useState([])
   const { searchTerm } = useParams()
+  const { showBoundary } = useErrorBoundary()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchFromAPI(`search?part=snippet,id&q=${searchTerm}`)
-    .then((data) => setVideos(data.items))
+    .then((data) => {
+      setLoading(false)
+      setVideos(data.items)
+    })
+    .catch((err) => {
+      showBoundary(err)
+    })
   }, [searchTerm])
 
   return (
@@ -21,9 +29,8 @@ const SearchFeed = () => {
       <Typography variant='h5' fontWeight="bold" mb={2} sx={{ color: "white"}}>
         Results For <span style={{color: "#F31503"}}>{searchTerm}</span>
       </Typography>
-      <Suspense fallback={<VideosFallBack />}>
-        <Videos videos={videos}/>
-      </Suspense>
+      {loading && <VideosFallBack />}
+      <Videos videos={videos}/>
     </Box>
   )
 }
