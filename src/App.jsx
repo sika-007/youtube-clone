@@ -1,7 +1,10 @@
+"use client";
+
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Box } from "@mui/material"
-import { Navbar, Feed, ChannelDetail, SearchFeed, VideoDetail } from "./components"
+import { ErrorBoundary } from 'react-error-boundary'
+import { Navbar, Feed, ChannelDetail, SearchFeed, VideoDetail, ErrorPage } from "./components"
 
 
 const App = () => {
@@ -10,10 +13,10 @@ const App = () => {
       <Box sx={{ background: "#000" }}>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Feed />} />
-          <Route path="/video/:id" element={<VideoDetail />} />
-          <Route path="/channel/:id" element={<ChannelDetail />} />
-          <Route path="/search/:searchTerm" element={<SearchFeed />} />
+          <Route path="/" element={<ErrorBoundary FallbackComponent={ErrorPage}><Feed /></ErrorBoundary>} />
+          <Route path="/video/:id" element={<ErrorBoundary FallbackComponent={ErrorPage}><VideoDetail /></ErrorBoundary>} />
+          <Route path="/channel/:id" element={<ErrorBoundary FallbackComponent={ErrorPage}><ChannelDetail /></ErrorBoundary>} />
+          <Route path="/search/:searchTerm" element={<ErrorBoundary FallbackComponent={ErrorPage}><SearchFeed /></ErrorBoundary>} />
         </Routes>
       </Box>
     </Router>

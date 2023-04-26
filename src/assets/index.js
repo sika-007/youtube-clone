@@ -1,0 +1,1 @@
+export { default as Earth } from "./earth-europe-solid.svg"

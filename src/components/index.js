@@ -1,6 +1,7 @@
 export { default as ChannelCard } from "./ChannelCard"
 export { default as ChannelDetail } from "./ChannelDetail";
 export { default as Feed } from "./Feed";
+export { default as ErrorPage } from "./error-handling/ErrorPage"
 export { default as Navbar } from "./Navbar";
 export { default as SearchBar} from "./SearchBar";
 export { default as SearchFeed } from "./SearchFeed";
