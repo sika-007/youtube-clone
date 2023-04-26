@@ -86,3 +86,26 @@ a {
     width:200px;
   }
 }
+
+.rotate-center {
+  animation-duration: 1s;
+  animation-name: rotate-center;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  margin-top: 0rem;
+}
+
+@keyframes rotate-center {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
